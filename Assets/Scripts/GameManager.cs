@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
     public GameData gameData;
 
+
     private void Awake()
     {
         if (Instance != null) { Destroy(this.gameObject); }
@@ -30,7 +31,7 @@ public class GameManager : MonoBehaviour
     }
 
     [ContextMenu("Save Data")]
-    private void SaveData()
+    public void SaveData()
     {
         string data = JsonUtility.ToJson(gameData);
         string path = Path.Combine(Application.dataPath, "GameData.json");
@@ -39,7 +40,7 @@ public class GameManager : MonoBehaviour
 
     [ContextMenu("Load Data")]
 
-    private void LoadData()
+    public void LoadData()
     {
         SceneLoadManager.instance.SceneLoad("GameScene");
         string path = Path.Combine(Application.dataPath, "GameData.json");
@@ -61,9 +62,35 @@ public class GameManager : MonoBehaviour
         {
             switch (levelCheck)
             {
-                case 0: SceneLoadManager.instance.SceneLoad("GameOver"); break;
-                case 1: DeleteData(); SceneLoadManager.instance.SceneLoad("GameOver"); break;
+                case 0: return; // 노멀 모드인 경우 게임 오버 조건을 충족해도 게임 오버가 되지 않음.
+                case 1: DeleteData(); SceneLoadManager.instance.SceneLoad("GameOver"); break; // 하드모드인 경우 게임 오버가 가능해짐.
             }
         }
     }
+
+    public void GameStart()
+    {
+        SceneLoadManager.instance.SceneLoad("GameScene");
+    }
+
+    public void LoadButton()
+    {
+        LoadData();
+        SceneLoadManager.instance.SceneLoad("GameScene");
+    }
+
+    public void SettingButton()
+    {
+
+    }
+
+    public void GameExit()
+    {
+        #if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+        #else
+        Application.Quit();
+        #endif
+    }
 }
+

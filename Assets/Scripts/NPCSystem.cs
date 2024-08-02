@@ -13,6 +13,7 @@ public class NPCSystem : MonoBehaviour
 
     public Sprite[] profileArr;
 
+
     private void Awake()
     {
         talkData = new Dictionary<int, string[]>();
@@ -43,5 +44,10 @@ public class NPCSystem : MonoBehaviour
     public Sprite GetProfile(int id, int profileIndex)
     {
         return profileData[id + profileIndex];
+    }
+
+    public void NpcFavorabilityCheck()
+    {
+       
     }
 }

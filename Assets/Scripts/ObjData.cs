@@ -8,5 +8,6 @@ public class ObjData : MonoBehaviour
     // 아이템은 100번대
     public int id;
     public bool isNpc;
+    public int thisNpcFavorability = 0; // NPC의 호감도
 
 }
